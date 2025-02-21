@@ -101,8 +101,26 @@ def exe5(leds, sw):
     todos os outros leds acesos
     """
 
+from myhdl import *
+
+@block
+def exe5(leds, sw):
+    """
+    led0 é uma cópia da chave sw0
+    led1 é sw0 & sw1
+    led2 é o led1 invertido
+    led3 é o xor entre sw0 e sw1
+    todos os outros leds acesos
+    """
+
     @always_comb
     def comb():
+        led[0].next = w[0]
+        led[1].next = w[0] & w[1]
+        led[2].next = not led[1]
+        led[3].next = w[0] ^ w[1]
+        for i in range(4, len(led)):
+            led[i].next = True
         pass
 
     return instances()
